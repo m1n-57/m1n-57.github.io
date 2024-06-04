@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Analysis Model for Novels</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        section {
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        code {
+            display: block;
+            background: #eee;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+        }
+        .download-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Emotion Analysis Model for Novels</h1>
+    </header>
+
+    <section>
+        <h2>1. Introduction to the Emotion Analysis Model (Python Code)</h2>
+        <p>The emotion analysis model is developed using Python. Below is the core code snippet:</p>
+        <code>
+            # Importing necessary libraries
+            import pandas as pd
+            from sklearn.model_selection import train_test_split
+            from sklearn.ensemble import RandomForestClassifier
+            from sklearn.metrics import accuracy_score
+
+            # Load the dataset
+            data = pd.read_csv('novel_emotions.csv')
+
+            # Data preprocessing
+            X = data['text']
+            y = data['emotion']
+
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+            # Model training
+            model = RandomForestClassifier(n_estimators=100)
+            model.fit(X_train, y_train)
+
+            # Model evaluation
+            predictions = model.predict(X_test)
+            accuracy = accuracy_score(y_test, predictions)
+            print(f'Accuracy: {accuracy:.2f}')
+        </code>
+        <a class="download-button" href="path/to/your/ipynb/file.ipynb" download>Download Python Code</a>
+    </section>
+
+    <section>
+        <h2>2. Evolution of the Model</h2>
+        <p>The model went through four major updates:</p>
+        <h3>First Update</h3>
+        <code>
+            # Initial model training
+            model = RandomForestClassifier(n_estimators=10)
+            model.fit(X_train, y_train)
+        </code>
+
+        <h3>Second Update</h3>
+        <code>
+            # Increased the number of estimators
+            model = RandomForestClassifier(n_estimators=50)
+            model.fit(X_train, y_train)
+        </code>
+
+        <h3>Third Update</h3>
+        <code>
+            # Added text preprocessing steps
+            from sklearn.feature_extraction.text import CountVectorizer
+            vectorizer = CountVectorizer()
+            X_train_vec = vectorizer.fit_transform(X_train)
+            X_test_vec = vectorizer.transform(X_test)
+
+            model = RandomForestClassifier(n_estimators=50)
+            model.fit(X_train_vec, y_train)
+        </code>
+
+        <h3>Fourth Update</h3>
+        <code>
+            # Final model with optimized hyperparameters
+            from sklearn.model_selection import GridSearchCV
+
+            param_grid = {
+                'n_estimators': [50, 100, 200],
+                'max_depth': [None, 10, 20, 30]
+            }
+
+            grid_search = GridSearchCV(RandomForestClassifier(), param_grid, cv=5)
+            grid_search.fit(X_train_vec, y_train)
+
+            best_model = grid_search.best_estimator_
+            best_model.fit(X_train_vec, y_train)
+        </code>
+    </section>
+
+    <section>
+        <h2>3. Analysis Results of Various Novels</h2>
+        <p>Here are the results of analyzing several novels using the emotion analysis model:</p>
+        <img src="path/to/your/graph1.png" alt="Analysis Graph 1">
+        <img src="path/to/your/graph2.png" alt="Analysis Graph 2">
+        <p>The graphs above illustrate the distribution of emotions in different novels, providing insights into the emotional landscape of each work.</p>
+    </section>
+
+    <section>
+        <h2>4. Humanities Follow-up Analysis</h2>
+        <p>The follow-up analysis offers a deeper understanding of the emotional dynamics in literature. By analyzing the results, several key observations were made:</p>
+        <p>- Novels with tragic endings tend to have a higher frequency of negative emotions.</p>
+        <p>- The presence of joy and surprise is often linked to pivotal moments in the story arc.</p>
+        <p>- Emotional diversity is a hallmark of complex character development.</p>
+    </section>
+</body>
+</html>

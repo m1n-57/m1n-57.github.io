@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>개인 포트폴리오</title>
+    <link rel="stylesheet" href="style/reset.css" />
+    <link rel="stylesheet" href="style/style.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="src/img/favicon.png"
+    />
+  </head>
+  <body>
+    <main id="app">
+      <section class="section-intro">
+        <header id="header">
+          <h1 class="txt-invisible">Portfolio</h1>
+          <nav>
+            <ul class="nav-list">
+              <li><a href="#development" class="list-link">Development</a></li>
+              <li><a href="#model" class="list-link">Model</a></li>
+              <li><a href="#analysis" class="list-link">Analysis</a></li>
+            </ul>
+          </nav>
+          <div class="bar-bg">
+            <span class="bar-ing"></span>
+          </div>
+        </header>
+      </section>
+
+      <!-- Development Section -->
+      <section class="section-development" id="development">
+        <h2>Development</h2>
+        <div>
+          <h3>1차 모델</h3>
+          <p>기본적인 감정 분석 모델 구축</p>
+          <pre><code>import matplotlib.pyplot as plt
+
+sentiment_scores = [0.1, -0.2, 0.5, -0.1]
+plt.plot(sentiment_scores)
+plt.title('Sentiment Analysis - First Iteration')
+plt.show()</code></pre>
+        </div>
+        <div>
+          <h3>2차 모델</h3>
+          <p>데이터 전처리 개선</p>
+          <pre><code>import pandas as pd
+
+def preprocess_data(data):
+    return processed_data
+
+processed_data = preprocess_data(raw_data)</code></pre>
+        </div>
+        <div>
+          <h3>3차 모델</h3>
+          <p>감정 사전 확장 및 모델 튜닝</p>
+          <pre><code>extended_lexicon = original_lexicon + new_words
+model = train_model(processed_data, extended_lexicon)</code></pre>
+        </div>
+        <div>
+          <h3>4차 모델</h3>
+          <p>감정 변화 시각화 개선</p>
+          <pre><code>import numpy as np
+
+sentiment_changes = np.diff(sentiment_scores)
+plt.plot(sentiment_changes)
+plt.title('Sentiment Change Over Time - Fourth Iteration')
+plt.show()</code></pre>
+        </div>
+        <div>
+          <h3>5차 모델</h3>
+          <p>최종 모델, 감정 분석 정확도 최적화</p>
+          <pre><code>final_model = optimize_model(processed_data, extended_lexicon)
+final_results = final_model.predict(test_data)
+
+plt.plot(final_results)
+plt.title('Final Sentiment Analysis Results')
+plt.show()</code></pre>
+        </div>
+      </section>
+
+      <!-- Model Section -->
+      <section class="section-model" id="model">
+        <h2>Model</h2>
+        <div>
+          <p>최종 감정 분석 모델은 다음과 같은 과정을 통해 구현되었습니다.</p>
+          <h3>모델 로드 및 초기화</h3>
+          <pre><code>from transformers import pipeline
+
+sentiment_analysis_pipeline = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
+MAX_LENGTH = 512</code></pre>
+          <h3>감정 분석 수행 함수</h3>
+          <pre><code>def get_sentiment_score(text, prev_score=None):
+    if len(text) > MAX_LENGTH:
+        text = text[:MAX_LENGTH]
+    results = sentiment_analysis_pipeline(text)
+    emotion_scores = {'anger': 0, 'disgust': 0, 'fear': 0, 'joy': 0, 'sadness': 0}
+    for result in results:
+        label = result['label']
+        probability = result['score']
+        if label == '1 star':
+            emotion_scores['sadness'] += probability
+        elif label == '2 stars':
+            emotion_scores['fear'] += probability
+        elif label == '3 stars':
+            emotion_scores['disgust'] += probability
+        elif label == '4 stars':
+            emotion_scores['joy'] += probability
+        elif label == '5 stars':
+            emotion_scores['joy'] += 2 * probability
+    score = (
+        -1 * emotion_scores['anger'] +
+        -0.5 * emotion_scores['disgust'] +
+        -0.7 * emotion_scores['fear'] +
+        1 * emotion_scores['joy'] +
+        -1 * emotion_scores['sadness']
+    )
+    return score</code></pre>
+          <h3>결과 시각화</h3>
+          <pre><code>import matplotlib.pyplot as plt
+
+positive_scores = [score for score in sentiment_analysis if score > 0]
+negative_scores = [score for score in sentiment_analysis if score < 0]
+positive_score_sum = sum(positive_scores)
+negative_score_sum = abs(sum(negative_scores))
+positive_weighted_sum = positive_score_sum * len(positive_scores)
+negative_weighted_sum = negative_score_sum * len(negative_scores)
+total_weighted_sum = positive_weighted_sum + negative_weighted_sum
+positive_final_score = (positive_weighted_sum / total_weighted_sum) * 100
+negative_final_score = (negative_weighted_sum / total_weighted_sum) * 100
+
+fig, ax = plt.subplots(figsize=(8, 6))
+categories = ['Positive Sentiment Score', 'Negative Sentiment Score']
+scores = [positive_final_score, negative_final_score]
+colors = ["#DC143C", "#392F31"]
+bars = plt.bar(categories, scores, color=colors)
+for bar, score in zip(bars, scores):
+    yval = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width() / 2.0, yval + 0.1, f'{score:.2f} points', ha='center', va='bottom', color='black')
+ax.yaxis.grid(True, which='both', color='lightgrey', linestyle='--', linewidth=0.7)
+ax.set_axisbelow(True)
+ax.set_ylim(0, max(positive_final_score, negative_final_score) * 1.2)
+plt.title('Overall Sentiment Analysis of the Novel')
+plt.show()</code></pre>
+        </div>
+      </section>
+
+<!-- Analysis Section -->
+<section class="section-analysis" id="analysis">
+  <h2>Analysis</h2>
+  <div>
+    <h3>"Pride and Prejudice" 감정 분석</h3>
+    <p>감정 극성의 범위와 그 적절성: 0.03부터 0.37</p>
+    <p>이유 및 타당성 설명: "Pride and Prejudice"는 주로 엘리자베스 베넷과 피츠윌리엄 다아시 간의 복잡한 감정의 전개를 중심으로 하는 소설입니다. 모델이 이러한 감정적 변화를 적절히 포착한 것으로 보이며, 감정 극성의 범위가 이야기의 긴장감과 사건의 전개를 잘 반영했습니다.</p>
+    <h4>Significant Different Point (SDP)의 설명</h4>
+    <ul>
+      <li>Index 0 ~ 56: 소설의 도입부와 엘리자베스 베넷과 다아시의 첫 만남. 초기의 오해, 편견으로 인한 감정적 긴장이 나타나는 부분입니다.</li>
+      <li>Index 283 ~ 395: 엘리자베스가 다아시의 첫 번째 청혼을 거절하는 장면. 큰 감정적 충돌이 발생하는 부분입니다.</li>
+      <li>Index 961 ~ 1073: 엘리자베스와 다아시가 재회하여 서로의 진심을 이해하게 되는 중요한 장면입니다.</li>
+      <li>Index 1074 ~ 1186: 엘리자베스가 다아시의 변화를 목격하고, 그에 대한 감정이 변화하는 부분입니다.</li>
+      <li>Index 1187 ~ 1299: 다아시가 엘리자베스에게 다시 청혼하는 클라이맥스 부분입니다. 이 부분은 감정적 극대화를 보여줍니다.</li>
+      <li>Index 1300 ~ 1412: 엘리자베스가 다아시의 청혼을 수락하고, 두 사람의 관계가 완전히 회복되는 결말로 이어지는 부분입니다.</li>
+      <li>Index 2204 ~ 2316: 소설의 결말 부분으로, 모든 갈등이 해결되고, 인물들이 행복을 찾는 장면입니다.</li>
+    </ul>
+    <h4>Significant Volatility Point (SVP)의 설명</h4>
+    <ul>
+      <li>Index 170 ~ 282: 엘리자베스와 다아시의 첫 번째 갈등이 발생하는 부분입니다. 이 부분은 감정의 큰 변동을 보여줍니다.</li>
+      <li>Index 735 ~ 847: 엘리자베스가 다아시의 진심을 깨닫게 되는 장면으로, 감정의 변동이 극대화됩니다.</li>
+      <li>Index 1187 ~ 1299: 다아시가 엘리자베스에게 다시 청혼하는 장면으로, 감정적 클라이맥스를 보여줍니다.</li>
+    </ul>
+    <h4>Significant Fluctuation Point (SFP)의 설명</h4>
+    <p>전반적으로 SDP와 SVP의 설정이 적절하게 이루어졌습니다. 특히, Index 1187 ~ 1299 구간에서 감정 변화가 중복 감지되어 모델이 감정 변화를 효과적으로 인지한 것을 보여줍니다.</p>
+    <h4>전반적인 긍정적/부정적 점수와 그 적절성</h4>
+    <p>긍정 점수: 68.57 points<br>부정 점수: 31.43 points<br>이유 및 타당성 설명: 소설의 전반적인 분위기가 긍정적인 요소가 더 강하게 나타나며, 이는 엘리자베스와 다아시의 관계가 결국 긍정적으로 발전하는 스토리를 잘 반영한 결과입니다.</p>
+    <h4>분석 결과 시각화</h4>
+    <img src="overall sentiment analysis of the novel.png" alt="Overall Sentiment Analysis">
+    <img src="sentiment analysis using different calculating methods.png" alt="Sentiment Analysis using Different Calculating Methods">
+    <img src="sentiment volatility.png" alt="Sentiment Volatility">
+    <img src="significant fluctuation point.png" alt="Significant Fluctuation Point">
+  </div>
+</section>
